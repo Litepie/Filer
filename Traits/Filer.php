@@ -305,7 +305,7 @@ trait Filer
     {
         $file = $this->$field;
 
-        $prefix = ($download) ? 'file/' : 'download/';
+        $prefix = "/file/{$this->config}/";
 
         if (!is_array($file) || empty($file)) {
 
@@ -318,15 +318,28 @@ trait Filer
         }
 
         if (in_array($field, $this->uploads['single'])) {
-            $file['url'] = $prefix . folder_encode($file['folder']) . '/' . $file['file'];
+            $file['url'] = url($prefix . folder_encode($file['folder']) . '/' . $file['file']);
             return $file;
         }
 
         foreach ($file as $key => $fil) {
-            $file[$key]['url'] = $prefix . folder_encode($fil['folder']) . '/' . $fil['file'];
+            $file[$key]['url'] = url($prefix . folder_encode($fil['folder']) . '/' . $fil['file']);
         }
 
         return $file;
+    }
+
+    /**
+     * Return the main upload folder for the model.
+     *
+     * @param type|string $size
+     * @param type|string $field
+     *
+     * @return string path
+     */
+    public function fileFolder()
+    {
+        return url('uploads'.config($this->config . '.upload_folder'));
     }
 
     /**
