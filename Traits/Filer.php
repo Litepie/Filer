@@ -318,11 +318,12 @@ trait Filer
         }
 
         if (in_array($field, $this->uploads['single'])) {
-            return $prefix . folder_encode($file['folder']) . '/' . $file['file'];
+            $file['url'] = $prefix . folder_encode($file['folder']) . '/' . $file['file'];
+            return $file;
         }
 
         foreach ($file as $key => $fil) {
-            $file[$key] = $prefix . folder_encode($fil['folder']) . '/' . $fil['file'];
+            $file[$key]['url'] = $prefix . folder_encode($fil['folder']) . '/' . $fil['file'];
         }
 
         return $file;
